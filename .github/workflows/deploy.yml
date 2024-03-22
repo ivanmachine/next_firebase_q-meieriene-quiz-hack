@@ -1,0 +1,53 @@
+name: ⚡ Build, deploy, and serve live SSR next.js site
+on:
+  push:
+    branches:
+      - deploy
+  workflow_dispatch:
+jobs:
+  build-and-deploy-SSR:
+    name: 🎉 Deploy
+    runs-on: debian-latest
+    timeout-minutes: 5
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v3.0.2
+      - uses: actions/setup-node@v3.1.1
+        with:
+          node-version: v20.0.0
+      - run: |
+          mkdir -p q-meieriene-hack.no
+          mv tsconfig.json      q-meieriene-hack.no
+          mv package.json       q-meieriene-hack.no
+          mv next.config.mjs    q-meieriene-hack.no
+          mv public             q-meieriene-hack.no
+          mv app                q-meieriene-hack.no
+      - name: 📂 Sync files
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          username: root
+          server: ${{ secrets.SERVER_IP }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          local_path: "./q-meieriene-hack.no"
+          remote_path: "/var/www/"
+          sftpArgs: "-o ConnectTimeout=5"
+      - name: 🚀 SSH to Digital Ocean, build, and start
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: root
+          password: ${{ secrets.SERVER_PASSWORD }}
+          script: |
+            nvm use 20.0.0
+            cd /var/www/q-meieriene-hack.no
+            yarn
+            yarn build
+            pm2 ls 
+            pm2 describe Q-meieriene-hack > /dev/null 2>&1
+            if [ $? -eq 0 ]; then
+                pm2 reload Q-meieriene-hack
+            else
+                pm2 start "yarn start" --name "Q-meieriene-hack"
+            fi
+            pm2 save
+            pm2 startup
