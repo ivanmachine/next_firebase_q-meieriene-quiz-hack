@@ -25,3 +25,13 @@ a {
   max-width: 1200px;
   margin: 0 auto;
 }
+
+button {
+  all: unset;
+  background-color: gray;
+  padding: 0.5rem 1rem;
+  border-radius: 0.15rem;
+}
+button:hover {
+  cursor: pointer;
+}
