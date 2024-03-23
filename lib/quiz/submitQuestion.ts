@@ -1,7 +1,3 @@
-import {
-  standardizeAnswer,
-  standardizeString,
-} from "../utils/standardizeString";
 import { answerQuestion } from "./answerQuestion";
 
 const myCookie = process.env.COOKIE;
@@ -28,5 +24,5 @@ export async function submitQuestion(question: FirebaseAnswer) {
     const questionJSON: QuizQuestion = await res.json();
     console.log("Answer from correcteness API: ", questionJSON);
     return questionJSON;
-  } else throw new Error("No cookie for getQuestionFromNumber");
+  } else throw new Error("No cookie for submitQuestion");
 }

@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 import { getSession } from "./lib/auth/getSession";
 import { User } from "./lib/auth/types";
 
-const restrictedPaths = ["/", "/url-shortener", "/background-remover"];
+const restrictedPaths = ["/train", "/hack"];
 
 export async function middleware(request: NextRequest) {
   const path: string = request.nextUrl.pathname;

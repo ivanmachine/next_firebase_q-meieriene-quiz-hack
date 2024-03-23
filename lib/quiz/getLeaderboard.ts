@@ -1,4 +1,5 @@
 "use server";
+
 export async function getLeaderboard(
   numberOfPeople: number = 10
 ): Promise<LeaderBoardPerson[]> {
