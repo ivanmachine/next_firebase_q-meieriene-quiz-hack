@@ -1,10 +1,9 @@
 .hack__dashboard {
 }
 
-.buttons {
+.settings_and_header {
   display: flex;
-  gap: 1rem;
-}
-
-.answers {
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }

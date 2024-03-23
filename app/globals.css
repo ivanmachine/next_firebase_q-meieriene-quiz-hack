@@ -52,3 +52,9 @@ button:hover {
     border: 0.15rem solid #00000020;
   }
 }
+
+@media screen and (max-width: 1000px) {
+  .ui__wrapper {
+    grid-template-columns: 1fr;
+  }
+}

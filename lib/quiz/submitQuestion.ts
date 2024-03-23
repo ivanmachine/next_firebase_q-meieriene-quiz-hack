@@ -2,15 +2,16 @@ import {
   standardizeAnswer,
   standardizeString,
 } from "../utils/standardizeString";
+import { answerQuestion } from "./answerQuestion";
 
 const myCookie = process.env.COOKIE;
 
-export async function getQuestionFromNumber(
-  questionNumber: number
-): Promise<QuizQuestion> {
+export async function submitQuestion(question: FirebaseAnswer) {
   if (myCookie) {
+    const answer = await answerQuestion(question);
+    if (answer === null) console.error("Answer is null when submitting");
     const res = await fetch(
-      "https://quiz.q-meieriene.no/api/app/quiz/pick-question",
+      "https://quiz.q-meieriene.no/api/app/quiz/check-answer",
       {
         headers: {
           Accept: "*/*",
@@ -19,16 +20,13 @@ export async function getQuestionFromNumber(
         },
         method: "POST",
         body: JSON.stringify({
-          turn: questionNumber,
+          answer: answer,
+          score: 88,
         }),
       }
     );
     const questionJSON: QuizQuestion = await res.json();
-    questionJSON.question = standardizeString(questionJSON.question);
-    questionJSON.answers = questionJSON.answers.map((answer) =>
-      standardizeAnswer(answer)
-    );
-    questionJSON.answer = null;
+    console.log("Answer from correcteness API: ", questionJSON);
     return questionJSON;
   } else throw new Error("No cookie for getQuestionFromNumber");
 }
