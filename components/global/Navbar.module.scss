@@ -1,0 +1,31 @@
+.header {
+  width: 100%;
+  height: fit-content;
+}
+.content__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.q__meieri__header {
+  background-color: pink;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+.nav__links > a {
+  text-decoration: none;
+  color: black;
+  &:hover {
+    text-decoration: underline;
+  }
+}
