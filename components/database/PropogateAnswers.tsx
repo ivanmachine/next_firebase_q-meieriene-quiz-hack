@@ -1,13 +1,17 @@
 "use client";
 
+import { propogateAnswersWithLimit } from "@/lib/quiz/propogateAnswersWithLimit";
+import s from "./PropogateAnswers.module.scss";
 import { useState } from "react";
 
 export default function PropogateAnswers() {
-  const [amount, setAmount] = useState(0);
-  async function propogateAnswers() {}
+  const [amount, setAmount] = useState<number>(0);
+  async function propogateAnswers() {
+    await propogateAnswersWithLimit(amount);
+  }
   return (
-    <div>
-      <h3>Gather questions</h3>
+    <div className={s.propogate__answers}>
+      <h3>Propogate answers</h3>
       <input
         type="number"
         onChange={(e) => {

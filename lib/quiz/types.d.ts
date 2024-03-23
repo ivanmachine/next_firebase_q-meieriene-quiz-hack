@@ -20,6 +20,8 @@ type MyScoreJSON = {
 };
 
 type QuizQuestion = {
+  hash: string;
   question: string;
   answers: string[];
+  answer: null | string;
 };

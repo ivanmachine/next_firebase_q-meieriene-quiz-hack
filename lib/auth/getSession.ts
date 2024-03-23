@@ -6,8 +6,9 @@ import { User } from "./types";
 const sessionPassword = process.env.SESSION_PASSWORD;
 if (!sessionPassword) throw new Error("SESSION_PASSWORD is not set");
 
-export async function getSession(): Promise<User> {
+export async function getSession(): Promise<User | null> {
   const encryptedSession = cookies().get("auth_session")?.value;
+  if (!encryptedSession) return null;
   if (encryptedSession && sessionPassword) {
     // This WILL fail if auth_session json encoding is shit
     const session = await unsealData(encryptedSession, {
