@@ -5,13 +5,4 @@
   margin-bottom: 1rem;
 }
 .content {
-  height: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  & > * {
-    padding: 1rem;
-    border-radius: 1rem;
-    border: 0.15rem solid #00000020;
-  }
 }

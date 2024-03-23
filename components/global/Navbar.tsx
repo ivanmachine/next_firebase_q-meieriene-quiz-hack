@@ -13,7 +13,10 @@ export default function Navbar() {
             <p>Login</p>
           </Link>
           <Link href="/database">
-            <p>Database</p>
+            <p>Database data</p>
+          </Link>
+          <Link href="/database_tools">
+            <p>Database tools</p>
           </Link>
           <Link href="/about">
             <p>About</p>

@@ -1,9 +1,14 @@
+import RawQuestionData from "@/components/database/RawQuestionData";
 import s from "./page.module.scss";
 
 export default function page() {
   return (
-    <main className={`${s.database__wrapper} container`}>
-      <h1>Database</h1>
+    <main className={`container`}>
+      <h1>Database tools</h1>
+      <div className="ui__wrapper">
+        <RawQuestionData />
+        <h1>Thing 2</h1>
+      </div>
     </main>
   );
 }

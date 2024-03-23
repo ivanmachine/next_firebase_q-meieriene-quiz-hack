@@ -39,3 +39,15 @@ button {
 button:hover {
   cursor: pointer;
 }
+
+.ui__wrapper {
+  height: fit-content;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  & > * {
+    padding: 1rem;
+    border-radius: 1rem;
+    border: 0.15rem solid #00000020;
+  }
+}

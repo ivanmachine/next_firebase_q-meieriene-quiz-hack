@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <main className={`${s.main} container`}>
       <h1 className={s.header}>Homepage</h1>
-      <section className={s.content}>
+      <section className={`${s.content} ui__wrapper`}>
         <Hackquiz />
         <Leaderboard />
       </section>

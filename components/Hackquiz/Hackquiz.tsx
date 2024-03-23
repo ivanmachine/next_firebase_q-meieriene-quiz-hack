@@ -17,6 +17,7 @@ export default function Hackquiz() {
     setQuizQuestionJSON(res);
     setLoading(false);
   }
+  async function getAnswer() {}
   useEffect(() => {
     getQuizQuestion();
   }, []);
