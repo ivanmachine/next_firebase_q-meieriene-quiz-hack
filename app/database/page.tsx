@@ -5,9 +5,9 @@ export default function page() {
   return (
     <main className={`container`}>
       <h1>Database tools</h1>
-      <div className="ui__wrapper">
+      <div className={`${s.data__list} ui__wrapper`}>
         <RawQuestionData />
-        <h1>Thing 2</h1>
+        {/* <h1>Thing 2</h1> */}
       </div>
     </main>
   );

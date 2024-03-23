@@ -1,4 +1,7 @@
 "use server";
+
+import { standardizeString } from "../utils/standardizeString";
+
 const myCookie = process.env.COOKIE;
 
 export async function getQuestionFromNumber(
@@ -20,7 +23,7 @@ export async function getQuestionFromNumber(
       }
     );
     const questionJSON: QuizQuestion = await res.json();
-    console.log("QuestionJSON: ", questionJSON);
+    questionJSON.question = standardizeString(questionJSON.question);
     return questionJSON;
   } else throw new Error("No cookie for getQuestionFromNumber");
 }

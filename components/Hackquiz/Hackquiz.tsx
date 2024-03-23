@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import s from "./Hackquiz.module.scss";
-import { getQuestionFromNumber } from "@/lib/quiz/getQuestion";
+import { getQuestionFromNumber } from "@/lib/quiz/getQuestionFromNumber";
 import Question from "./Question";
 export default function Hackquiz() {
   const [loading, setLoading] = useState(true);

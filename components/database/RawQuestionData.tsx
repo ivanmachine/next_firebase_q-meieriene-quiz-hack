@@ -1,34 +1,52 @@
 "use client";
-import { db } from "@/lib/firebase/firebase_config";
 import React, { useEffect, useState } from "react";
-
+import { getAllAnswersFromFirebase } from "@/lib/firebase/getAllAnswersFromFirebase";
+import s from "./RawQuestionData.module.scss";
 export default function RawQuestionData() {
-  const [answers, setAnswers] = useState(); // State to store the fetched documents
-
+  const [answers, setAnswers] = useState<FirebaseAnswer[]>();
+  const [loading, setloading] = useState(true);
   useEffect(() => {
-    // Fetch all documents from the /answers collection
-    const fetchAnswers = async () => {
-      const snapshot = await db.collection("answers").get();
-      const docs = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(), // Spread the data into the object
-      }));
-      setAnswers(docs); // Update the state with the fetched documents
-    };
+    getAllAnswers();
+  }, []);
 
-    fetchAnswers(); // Call the function to fetch documents
-  }, []); // Empty dependency array means this effect runs once on mount
+  async function getAllAnswers() {
+    setloading(true);
+    const updatedAnswers = await getAllAnswersFromFirebase();
+    setAnswers(updatedAnswers);
+    setloading(false);
+  }
 
   return (
-    <div>
-      <h2>RawQuestionData</h2>
-      <ul>
-        {answers?.map((answer) => (
-          <li key={answer.id}>
-            Answer ID: {answer.id}, Answer: {answer.answer}
-          </li>
-        ))}
+    <div className={`${loading ? "loading" : undefined}`}>
+      <h2>Raw Question Data</h2>
+      <button onClick={getAllAnswers}>refresh</button>
+      <p>
+        Antall<b>{answers?.length}</b>
+      </p>
+      <ul className={s.answers__list}>
+        {answers?.map((answer) => {
+          return <Answer key={answer.id} answer={answer} />;
+        })}
       </ul>
     </div>
+  );
+}
+
+function Answer({ answer }: { answer: FirebaseAnswer }) {
+  return (
+    <li
+      className={s.answer}
+      style={{ backgroundColor: answer.answer ? "lime" : "red" }}
+    >
+      <p>ID: {answer.id}</p>
+      <p>Question: {answer.question}</p>
+      <p>Potential answers:</p>
+      <ul>
+        {answer.answers?.map((potential__answer, index) => {
+          return <li key={index}>{potential__answer}</li>;
+        })}
+      </ul>
+      <p>Answer: {answer.answer}</p>
+    </li>
   );
 }
