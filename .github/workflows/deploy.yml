@@ -17,11 +17,13 @@ jobs:
           node-version: v20.0.0
       - run: |
           mkdir -p q-meieriene-hack.no
-          mv tsconfig.json      q-meieriene-hack.no
-          mv package.json       q-meieriene-hack.no
-          mv next.config.mjs    q-meieriene-hack.no
-          mv public             q-meieriene-hack.no
           mv app                q-meieriene-hack.no
+          mv components         q-meieriene-hack.no
+          mv lib                q-meieriene-hack.no
+          mv public             q-meieriene-hack.no
+          mv next.config.mjs    q-meieriene-hack.no
+          mv package.json       q-meieriene-hack.no
+          mv tsconfig.json      q-meieriene-hack.no
       - name: 📂 Sync files
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
