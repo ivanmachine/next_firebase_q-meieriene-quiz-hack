@@ -1,5 +1,7 @@
 import CryptoJS from "crypto-js";
 export function getHash(input: string): string {
+  if (typeof input !== "string")
+    throw new Error("getHash input is not a string");
   input = input.trim();
   input = input.toLowerCase();
   input = input.replace(/\s+/g, " ");

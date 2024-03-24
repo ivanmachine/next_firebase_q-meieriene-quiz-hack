@@ -7,7 +7,6 @@ export default async function Home() {
     <main className={`${s.main} container`}>
       <h1 className={s.header}>Homepage</h1>
       <section className={`${s.content} ui__wrapper`}>
-        <h2>Right panel</h2>
         <Leaderboard />
       </section>
     </main>

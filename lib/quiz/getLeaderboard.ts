@@ -16,22 +16,20 @@ export async function getLeaderboard(
   return leaderboardJSON.items.slice(0, numberOfPeople);
 }
 
-const myCookie = process.env.COOKIE;
 export async function getMyScore(): Promise<MyScoreJSON> {
-  if (myCookie) {
-    const score = await fetch(
-      "https://quiz.q-meieriene.no/api/app/results/rating",
-      {
-        headers: {
-          Accept: "*/*",
-          "Content-Type": "application/json",
-          Cookie: myCookie,
-          "User-Agent": "Mozilla/5.0",
-        },
-        method: "POST",
-      }
-    );
-    const scoreJSON: MyScoreJSON = await score.json();
-    return scoreJSON;
-  } else throw new Error("No cookie in getMyScore()");
+  const score = await fetch(
+    "https://quiz.q-meieriene.no/api/app/results/rating",
+    {
+      method: "POST",
+      headers: {
+        Origin: "https://quiz.q-meieriene.no",
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0",
+        "Content-Type": "application/json",
+        Cookie: process.env.COOKIE,
+      },
+    }
+  );
+  const scoreJSON: MyScoreJSON = await score.json();
+  return scoreJSON;
 }
