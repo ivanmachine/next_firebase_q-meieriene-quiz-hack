@@ -41,11 +41,6 @@ function Answer({ answer }: { answer: FirebaseAnswer }) {
       <p>ID: {answer.id}</p>
       <p>Question: {answer.question}</p>
       <p>Potential answers:</p>
-      <ul>
-        {answer.answers?.map((potential__answer, index) => {
-          return <li key={index}>{potential__answer}</li>;
-        })}
-      </ul>
       <p>Answer: {answer.answer}</p>
     </li>
   );

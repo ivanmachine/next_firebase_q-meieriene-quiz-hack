@@ -24,7 +24,7 @@ type QuizQuestion = {
   answers: string[];
 };
 
-type Q_Answer {
-  OK: boolean
-  correct?: string
-}
+type Q_Answer = {
+  OK: boolean;
+  correct?: string;
+};

@@ -7,7 +7,7 @@ const options = {
     "User-Agent":
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0",
     "Content-Type": "application/json",
-    Cookie: process.env.COOKIE,
+    Cookie: process.env.COOKIE ?? "blank",
   },
   body: "",
 };
@@ -15,6 +15,8 @@ const options = {
 export async function getQuestionFromTurn(
   turn: number
 ): Promise<QuizQuestion | null> {
+  if (options.headers.Cookie === "blank") throw new Error("No .env");
+
   options.body = JSON.stringify({ turn: turn });
   const question = await fetch(
     "https://quiz.q-meieriene.no/api/app/quiz/pick-question",

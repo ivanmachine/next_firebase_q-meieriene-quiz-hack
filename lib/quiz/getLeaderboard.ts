@@ -17,6 +17,7 @@ export async function getLeaderboard(
 }
 
 export async function getMyScore(): Promise<MyScoreJSON> {
+  if (typeof process.env.COOKIE !== "string") throw new Error("No .env.cookie");
   const score = await fetch(
     "https://quiz.q-meieriene.no/api/app/results/rating",
     {
@@ -26,7 +27,7 @@ export async function getMyScore(): Promise<MyScoreJSON> {
         "User-Agent":
           "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0",
         "Content-Type": "application/json",
-        Cookie: process.env.COOKIE,
+        Cookie: process.env.COOKIE ?? "blank",
       },
     }
   );

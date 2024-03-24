@@ -4,14 +4,14 @@ const options = {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
-    Cookie:
-      "connect.sid=s%3AmbPnMstV5bM5oM9gBPM9tcyaXuwPkyQz.NlK93B9gCJoTJA1nLnzXUKZuZHuAC3YsIHPwAi80hUQ",
+    Cookie: process.env.COOKIE ?? "blank",
     Origin: "https://quiz.q-meieriene.no",
   },
   body: "",
 };
 
 export async function applyScore(): Promise<boolean> {
+  if (options.headers.Cookie === "blank") throw new Error("No .env");
   options.body = JSON.stringify({
     name: "Ivan Dmitrievich Tarnyagin",
     phone: "481 57 049",
