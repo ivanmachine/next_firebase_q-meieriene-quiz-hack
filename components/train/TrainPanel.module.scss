@@ -1,0 +1,13 @@
+.train__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  & input {
+    padding: 1rem;
+  }
+}
+.currentRequest {
+}
+.potentialAnswer {
+  margin-left: 1rem;
+}

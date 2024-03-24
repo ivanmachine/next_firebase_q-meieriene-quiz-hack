@@ -1,6 +1,5 @@
 type FirebaseAnswer = {
   id: id;
-  answer: null | string;
-  answers: string[];
+  answer: string;
   question: string;
 };
