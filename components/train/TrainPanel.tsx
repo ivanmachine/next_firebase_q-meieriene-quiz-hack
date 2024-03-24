@@ -6,7 +6,6 @@ import { getHash } from "@/lib/utils/getHash";
 import { doesDocExist } from "@/lib/firebase/doesDocExist";
 import { getAnswerFromAPI } from "@/lib/quiz/getAnswerFromAPI";
 import { uploadAnswer } from "@/lib/firebase/uploadAnswer";
-import Question from "../Hackquiz/Question";
 
 export default function TrainPanel() {
   const [skippedWrites, setskippedWrites] = useState(0);
@@ -18,13 +17,13 @@ export default function TrainPanel() {
   const [amount, setAmount] = useState(0);
   async function trainDatabase() {
     for (let i = 0; i < amount; i++) {
-      setrequestsSent((prev) => ++prev);
+      setrequestsSent((prev) => prev + 1);
       const randomQuestion = await getRandomQuestion();
       const randomQuestionHash = getHash(randomQuestion.question);
       const exists = await doesDocExist(randomQuestionHash);
       if (exists) {
         console.log("Question exists: ", randomQuestion.question);
-        setskippedWrites((prev) => ++prev);
+        setskippedWrites((prev) => prev + 1);
         continue;
       } else {
         setcurrentRequest(randomQuestion);
@@ -36,9 +35,11 @@ export default function TrainPanel() {
             answer: answer.correct,
             id: randomQuestionHash,
           });
-          setwrites((prev) => ++prev);
-          seterrorCount((prev) => ++prev);
-        } else console.error("No answer");
+          setwrites((prev) => prev + 1);
+        } else {
+          seterrorCount((prev) => prev + 1);
+          console.error("No answer");
+        }
       }
     }
     alert("Done!");

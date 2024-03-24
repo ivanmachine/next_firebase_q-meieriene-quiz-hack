@@ -19,13 +19,15 @@
     "react": "^18",
     "react-dom": "^18",
     "sass": "^1.72.0",
-    "server-only": "^0.0.1"
+    "server-only": "^0.0.1",
+    "string-similarity": "^4.0.4"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/string-similarity": "^4.0.2",
     "typescript": "^5"
   }
 }

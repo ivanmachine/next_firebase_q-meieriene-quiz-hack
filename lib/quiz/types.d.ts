@@ -26,5 +26,5 @@ type QuizQuestion = {
 
 type Q_Answer {
   OK: boolean
-  correct: string
+  correct?: string
 }
