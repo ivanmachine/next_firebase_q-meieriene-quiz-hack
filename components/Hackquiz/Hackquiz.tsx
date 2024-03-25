@@ -1,11 +1,13 @@
 "use client";
 
 import { getDocFromID } from "@/lib/firebase/getDocFromID";
+import { uploadAnswer } from "@/lib/firebase/uploadAnswer";
 import { answerQuestion } from "@/lib/quiz/answerQuestion";
+import { getAnswerFromAPI } from "@/lib/quiz/getAnswerFromAPI";
 import { getMyScore } from "@/lib/quiz/getLeaderboard";
 import { getQuestionFromTurn } from "@/lib/quiz/getQuestionFromTurn";
+import { submitMyScore } from "@/lib/quiz/submitMyScore";
 import { getHash } from "@/lib/utils/getHash";
-import { sleep } from "@/lib/utils/sleep";
 import { useState } from "react";
 import { findBestMatch } from "string-similarity";
 
@@ -16,8 +18,9 @@ export default function Hackquiz() {
   const [correctlyAnswered, setcorrectlyAnswered] = useState(0);
 
   async function hackQuiz() {
-    for (let i = 0; i < 20; i++) {
-      const question = await getQuestionFromTurn(questionTurn);
+    for (let i = 1; i <= 20; i++) {
+      console.log("Turn number: ", i);
+      const question = await getQuestionFromTurn(i);
       if (!question) throw new Error("Question is null");
       setcurrentQuestion(question.question);
       console.log("1. Got question: ", question);
@@ -35,26 +38,37 @@ export default function Hackquiz() {
           if (answerStatus.OK) {
             console.log("4. Answered correctly, on to the next question!");
             setcorrectlyAnswered((prev) => prev + 1);
+            const myScore = await getMyScore();
+            console.log("My score: ", myScore.score);
           } else {
             console.log("Answered wrong");
             // Upload answer, to
           }
           setquestionTurn((prev) => prev + 1);
-          setcurrentAnswer("Loading next answer");
           continue;
         }
       } else {
-        console.error("No answer for question: ");
-        answerQuestion("__blank_answer__");
-        // Answer with blank statement
-        // Get the correct answer, and upload it to firebase
+        console.error("No answer for question: ", question.question);
+        const correctAnswer = await getAnswerFromAPI();
+        if (!correctAnswer.correct)
+          throw new Error("No correct answer from API");
+        console.log("Found the correct answer, and uploading it to the DB");
+        await uploadAnswer({
+          id: getHash(question.question),
+          answer: correctAnswer.correct,
+          question: question.question,
+        });
       }
     }
     setquestionTurn(1);
-    const myScore = await getMyScore();
+    // const myScore = await getMyScore();
+    // console.log("My score: ", myScore.score);
+    // console.log("My position: ", myScore.position);
+    // console.log("Score in general: ", myScore);
+    console.log("Submitting my score ... ");
+    const myScore = await submitMyScore();
     console.log("My score: ", myScore.score);
     console.log("My position: ", myScore.position);
-    console.log("Score in general: ", myScore);
   }
   return (
     <>

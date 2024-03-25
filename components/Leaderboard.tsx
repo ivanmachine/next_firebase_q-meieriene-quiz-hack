@@ -5,10 +5,12 @@ import { getLeaderboard, getMyScore } from "@/lib/quiz/getLeaderboard";
 
 export default function Leaderboard() {
   const [myScore, setMyScore] = useState<MyScoreJSON>();
+  const [loadingMS, setLoadingMS] = useState(true);
   const [loading, setLoading] = useState(true);
   const [leaderboard, setLeaderboard] = useState<LeaderBoardPerson[]>([]);
   useEffect(() => {
     refreshLeaderboard();
+    refreshSCore();
   }, []);
 
   async function refreshLeaderboard() {
@@ -22,14 +24,18 @@ export default function Leaderboard() {
   }
 
   async function refreshSCore() {
-    const leaderboard = await getLeaderboard(1200);
+    setLoadingMS(true);
+    const score = await getMyScore();
+    setMyScore(score);
+    setLoadingMS(false);
   }
   return (
     <>
-      <div>
+      <div className={`${loadingMS ? "loading" : undefined}`}>
         <h2>My score</h2>
-        <button>Refresh</button>
-        <p>{}</p>
+        <button onClick={refreshSCore}>Refresh</button>
+        <p>My score: {myScore?.score}</p>
+        <p>Top score: {myScore?.topScore}</p>
       </div>
       <div className={`${s.leaderboard} ${loading ? "loading" : undefined}`}>
         <button onClick={refreshLeaderboard}>Refresh</button>

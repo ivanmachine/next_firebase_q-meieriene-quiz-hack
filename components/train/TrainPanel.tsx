@@ -14,17 +14,18 @@ export default function TrainPanel() {
   const [requestsSent, setrequestsSent] = useState(0);
   const [currentRequest, setcurrentRequest] = useState<QuizQuestion>();
   const [answer, setanswer] = useState<string>("");
-  const [amount, setAmount] = useState(0);
+  const [requestLimit, setRequestLimit] = useState(0);
   async function trainDatabase() {
-    for (let i = 0; i < amount; i++) {
+    let localTurn = 1;
+    for (let i = 1; i <= requestLimit; i++) {
+      console.log("Localturn: ", localTurn);
       setrequestsSent((prev) => prev + 1);
-      const randomQuestion = await getRandomQuestion();
+      const randomQuestion = await getRandomQuestion(localTurn);
       const randomQuestionHash = getHash(randomQuestion.question);
       const exists = await doesDocExist(randomQuestionHash);
       if (exists) {
-        console.log("Question exists: ", randomQuestion.question);
+        console.warn("Question exists: ", randomQuestion.question);
         setskippedWrites((prev) => prev + 1);
-        continue;
       } else {
         setcurrentRequest(randomQuestion);
         const answer = await getAnswerFromAPI();
@@ -41,6 +42,8 @@ export default function TrainPanel() {
           console.error("No answer");
         }
       }
+      if (localTurn >= 20) localTurn = 1;
+      else localTurn++;
     }
     alert("Done!");
   }
@@ -53,7 +56,7 @@ export default function TrainPanel() {
           type="number"
           placeholder="How many train requests"
           onChange={(e) => {
-            setAmount(Number(e.target.value));
+            setRequestLimit(Number(e.target.value));
           }}
         />
         <p>Requests total: {requestsSent}</p>

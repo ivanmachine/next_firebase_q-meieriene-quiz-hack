@@ -1,29 +1,24 @@
 "use server";
 
-const options = {
-  method: "POST",
-  headers: {
-    Origin: "https://quiz.q-meieriene.no",
-    "User-Agent":
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0",
-    "Content-Type": "application/json",
-    Cookie: process.env.COOKIE ?? "blank",
-  },
-  body: "",
-};
-
 export async function getQuestionFromTurn(
   turn: number
 ): Promise<QuizQuestion | null> {
-  if (options.headers.Cookie === "blank") throw new Error("No .env");
+  if (!process.env.COOKIE) throw new Error("No .env");
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Cookie: process.env.COOKIE,
+    },
+    body: JSON.stringify({ turn: turn }),
+  };
 
-  options.body = JSON.stringify({ turn: turn });
   const question = await fetch(
     "https://quiz.q-meieriene.no/api/app/quiz/pick-question",
     options
   );
   try {
-    const questionJSON = await question.json();
+    const questionJSON: QuizQuestion = await question.json();
     return questionJSON;
   } catch (e) {
     console.error("Error getting JSON: ", question.text());
