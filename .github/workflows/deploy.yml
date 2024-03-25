@@ -21,6 +21,7 @@ jobs:
           mv components         q-meieriene-hack.no
           mv lib                q-meieriene-hack.no
           mv public             q-meieriene-hack.no
+          mv middleware.ts      q-meieriene-hack.no
           mv next.config.mjs    q-meieriene-hack.no
           mv package.json       q-meieriene-hack.no
           mv tsconfig.json      q-meieriene-hack.no
