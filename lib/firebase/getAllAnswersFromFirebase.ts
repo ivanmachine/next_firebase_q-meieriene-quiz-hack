@@ -12,3 +12,5 @@ export async function getAllAnswersFromFirebase() {
   }));
   return answersArray;
 }
+
+// remove me
